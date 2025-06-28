@@ -1,0 +1,36 @@
+package com.example.alertdialog
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.widget.Toast
+import android.view.View
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    fun exit(view: View) {
+        val alert = AlertDialog.Builder(this)
+        alert.setTitle("Confirm Exit")
+        alert.setIcon(R.drawable.warning)
+        alert.setMessage("Are you sure you want to exit?")
+
+        alert.setNegativeButton("No") { _, _ ->
+            Toast.makeText(this, "You clicked on No", Toast.LENGTH_LONG).show()
+        }
+
+        alert.setNeutralButton("Cancel") { _, _ ->
+            Toast.makeText(this, "You clicked on Cancel", Toast.LENGTH_LONG).show()
+        }
+
+        alert.setPositiveButton("Yes") { _, _ ->
+            finish()
+        }
+
+        alert.setCancelable(false)
+        alert.create().show()
+    }
+}

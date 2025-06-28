@@ -1,0 +1,52 @@
+MainActivity.kt
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val nameEt = findViewById<EditText>(R.id.nameEt)
+        val emailEt = findViewById<EditText>(R.id.emailEt)
+        val phoneEt = findViewById<EditText>(R.id.phoneEt)
+        val saveBtn = findViewById<Button>(R.id.saveBtn)
+
+        // handle button click
+        saveBtn.setOnClickListener {
+            // get text from edittexts
+            val name = nameEt.text.toString()
+            val email = emailEt.text.toString()
+            val phone = phoneEt.text.toString()
+
+            // intent to start activity
+            val intent = Intent(this, MainActivity2::class.java)
+            intent.putExtra("Name", name)
+            intent.putExtra("Email", email)
+            intent.putExtra("Phone", phone)
+            startActivity(intent)
+        }
+    }
+}
+
+MainActivity2.kt
+
+
+class MainActivity2 : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main2)
+
+        // get data from intent
+        val intent = intent
+        val name = intent.getStringExtra("Name")
+        val email = intent.getStringExtra("Email")
+        val phone = intent.getStringExtra("Phone")
+
+        // textview
+        val resultTv = findViewById<TextView>(R.id.resultTv)
+
+        // setText
+        resultTv.text = "Name: " + name + "\nEmail: " + email + "\nPhone: " + phone
+    }
+}
