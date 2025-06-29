@@ -9,6 +9,7 @@ database.txt
 datepicker.txt
 datepicker2.txt
 fragment.txt
+gradle.txt
 intent.txt
 intentdata.txt
 optionmenu.txt
