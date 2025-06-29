@@ -99,6 +99,120 @@ MAIN.XML
         android:layout_below="@+id/expbutton"
         android:text="Implicit" />
 </RelativeLayout>
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+intent passing message
+
+activity_main.xml
+
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<EditText
+android:id="@+id/nameEt"
+android:hint="Enter Name"
+android:inputType="text"
+android:layout_width="match_parent"
+android:layout_height="wrap_content" />
+<EditText
+android:id="@+id/emailEt"
+android:hint="Enter Email"
+android:inputType="textEmailAddress"
+android:layout_width="match_parent"
+
+<EditText
+android:id="@+id/phoneEt"
+android:hint="Enter Phone"
+android:inputType="phone"
+android:layout_width="match_parent"
+android:layout_height="wrap_content" />
+<Button
+android:id="@+id/saveBtn"
+android:text="save"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content" />
+</LinearLayout>
+
+activitymain.kt
+
+package com.example.explicitandimplicitintentsbypassingdata
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+class MainActivity : AppCompatActivity() {
+override fun onCreate(savedInstanceState: Bundle?) {
+super.onCreate(savedInstanceState)
+setContentView(R.layout.activity_main)
+val nameEt = findViewById<EditText>(R.id.nameEt)
+val emailEt = findViewById<EditText>(R.id.emailEt)
+val phoneEt = findViewById<EditText>(R.id.phoneEt)
+val saveBtn = findViewById<Button>(R.id.saveBtn)
+
+//handle button click
+saveBtn.setOnClickListener {
+//get text from edittexts
+val name = nameEt.text.toString()
+val email = emailEt.text.toString()
+val phone = phoneEt.text.toString()
+//intent to start activity
+val intent = Intent(this, MainActivity2::class.java)
+intent.putExtra("Name", name)
+intent.putExtra("Email", email)
+intent.putExtra("Phone", phone)
+startActivity(intent)
+}
+}
+}
+
+second_activity.xm
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity2">
+<TextView
+android:id="@+id/resultTv"
+android:textSize="30sp"
+android:textStyle="bold"
+android:textColor="#000"
+android:layout_width="match_parent"
+android:layout_height="wrap_content" />
+</LinearLayout>
+
+secondactivity.kt
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.TextView
+class MainActivity2 : AppCompatActivity() {
+override fun onCreate(savedInstanceState: Bundle?) {
+super.onCreate(savedInstanceState)
+setContentView(R.layout.activity_main2)
+//get data from intent
+val intent = intent
+val name = intent.getStringExtra("Name")
+val email = intent.getStringExtra("Email")
+val phone = intent.getStringExtra("Phone")
+//textview
+val resultTv = findViewById<TextView>(R.id.resultTv)
+//setText
+resultTv.text = "Name: "+name+"\nEmail: "+email+"\nPhone: "+phone
+}
+}
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 2)MENU
 
@@ -2001,4 +2115,102 @@ Toast.makeText(this, "Result: $result", Toast.LENGTH_SHORT).show()
 Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show()
 }
 } }
+}
+
+
+#radio
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Heading"
+        android:textSize="20sp"
+        android:layout_above="@+id/RadioGrp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"/>
+
+    <RadioGroup
+        android:id="@+id/RadioGrp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/r1" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/r2" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/r3" />
+
+        <RadioButton
+            android:id="@+id/radioButton5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/r4" />
+
+        <RadioButton
+            android:id="@+id/radioButton6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/r5" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/button"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/RadioGrp"/>
+</RelativeLayout>
+
+
+.kt
+
+package com.example.prabbyradiobutton
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        title = "RadioGroup on Kotlin"
+
+        val radioGroup=faindViewById<RadioGroup>(R.id.RadioGrp)
+        val button=findViewById<Button>(R.id.button)
+
+        button.setOnClickListener {
+            val selectedOption = radioGroup!!.checkedRadioButtonId
+
+            val radioButton=findViewById<RadioButton>(selectedOption)
+
+            Toast.makeText(this, radioButton.text.toString()+" is selected!", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
