@@ -1,10 +1,13 @@
 alert.txt
+allinone.txt
+autocompletetextview.txt
 canvas.txt
 checkbox.txt
 contextmenu.txt
 customtoast.txt
 database.txt
 datepicker.txt
+datepicker2.txt
 fragment.txt
 intent.txt
 intentdata.txt
@@ -14,4 +17,5 @@ sharedpref1.txt
 sharedpref2.txt
 spinner.txt
 timepicker.txt
+timepicker2.txt
 toggle.txt
