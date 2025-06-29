@@ -1,0 +1,140 @@
+//timepicker with clock mode
+<TimePicker
+
+android:id="@+id/timePicker1"
+
+android:layout_width="wrap_content"
+
+android:layout_height="wrap_content"
+
+android:layout_centerHorizontal="true"
+
+android:layout_marginTop="20dp"
+
+android:timePickerMode="clock"/>
+
+//timepicker with spinner mode
+<TimePicker
+
+android:id="@+id/timePicker1"
+
+android:layout_width="wrap_content"
+
+android:layout_height="wrap_content"
+
+android:layout_centerHorizontal="true"
+
+android:layout_marginTop="20dp"
+
+android:timePickerMode="spinner"/>
+
+
+//Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent">
+
+<TimePicker
+
+android:id="@+id/timePicker"
+
+android:layout_width="wrap_content"
+
+android:layout_height="wrap_content"
+
+android:layout_centerHorizontal="true"
+
+android:timePickerMode="clock"/>
+
+<TextView
+
+android:id="@+id/textView"
+
+android:layout width="wrap content"
+
+android:layout_height="wrap content
+
+android:layout_alignBotton +10/timePicker
+
+android:textSize="18dp
+
+android:paddingLeft= 80dp" />
+
+TimePicker Inkotlin</string>
+
+</RelativeLayout>
+
+
+//main_activity.kt
+package com.example.timepicker
+
+import android.support.v7.app.AppCompatActivity
+
+import android.os.Bundle
+
+import android.view.ViewGroup
+
+import android.widget.TextView
+
+import android.widget.TimePicker
+
+class MainActivity: AppCompatActivity() {
+
+override fun onCreate(savedInstanceState: Bundle?) {
+
+super.onCreate(savedInstanceState)
+
+setContentView(R.layout.octivity.main)
+
+OnClickTime()
+
+}
+private fun OnClickTime()
+
+val textView = findViewById<TextView>(R.id.textView)
+
+val timePicker findViewById<TimePicker>(R.id.timePicker)
+
+timePicker.setOnTimeChangedListener {_, hour, minute> var hour=hour
+
+var am_pm="
+
+//AM_PM decider logic
+
+when (hour==0> { hour += 12
+
+am_pm="AM"
+}
+
+hour ==12 -> am_pm = "PM"
+hour>12->{hour-=12
+ am_pm="PM" 
+}
+else -> am_pm= "AM"
+
+}
+
+}
+
+if (textView!= null) {
+
+val hour =if (hour < 10) "0" hour else hour
+
+val min =if (minute 10) "0" minute else minute
+
+// display format of tine
+
+val msg "Time is: $hour $min am_pm
+
+textView.text=msg
+
+textView.visibility ViewGroup. VISIBLE
+}
+}
+}
+}

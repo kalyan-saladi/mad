@@ -1,0 +1,2004 @@
+1)Explicit and Implicit Intents
+
+if asked EXPLICIT two xml files in java(bottom->new->activity->empty activity)
+if asked IMPLICIT one mai.xml
+
+MAINACT.KT
+
+package com.example.prabbyimplicitexplicit
+
+import android.content.Intent
+import android.net.Uri
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val impbtn = findViewById<Button>(R.id.impbutton)
+        val expbtn = findViewById<Button>(R.id.expbutton)
+
+        expbtn.setOnClickListener {
+            val explicitintent = Intent(this, SecondActivity::class.java)
+            startActivity(explicitintent)
+//            finish()
+        }
+        impbtn.setOnClickListener {
+            val implicitintent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com"))
+            startActivity(implicitintent)
+        }
+
+    }
+}
+
+SECOND.KT
+
+package com.example.prabbyimplicitexplicit
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
+
+class SecondActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        Toast.makeText(this, "Hi this is Second activity in this application", Toast.LENGTH_LONG).show()
+    }
+}
+
+SECOND.XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="30sp"
+         />
+</RelativeLayout>
+
+MAIN.XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:textSize="30sp"
+        android:text="Explicit and Implicit Demo" />
+
+    <Button
+        android:id="@+id/expbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Explicit" />
+
+    <Button
+        android:id="@+id/impbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/expbutton"
+        android:text="Implicit" />
+</RelativeLayout>
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2)MENU
+
+TEENO TOGETHER
+
+MAIN.XML
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/context"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Context Menu" />
+
+    <Button
+        android:id="@+id/popup"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/context"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:text="PopUp Menu" />
+</RelativeLayout>
+
+MENU FOLDER CREATE(RES ->NEW->AND RES DIRECTORY)
+CONTEXT.XML
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/editItem"
+        android:title="Edit" />
+    <item
+        android:id="@+id/deleteItem"
+        android:title="Delete" />
+</menu>
+
+OPTION.XML
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Option Menu">
+        <menu>
+            <item
+                android:id="@+id/item1"
+                android:title="About" />
+            <item
+                android:id="@+id/item2"
+                android:title="Search" />
+            <item
+                android:id="@+id/item3"
+                android:title="Help" />
+        </menu>
+    </item>
+
+</menu>
+
+POPUP.XML
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/search_item"
+        android:title="Search" />
+    <item
+        android:id="@+id/modify_item"
+        android:title="Modify" />
+</menu>
+
+MAINACT.KT
+
+package com.example.prabbymenudemo
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.PopupMenu
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val cntxt = findViewById<Button>(R.id.context)
+        registerForContextMenu(cntxt)
+
+        val popbtn = findViewById<Button>(R.id.popup)
+        popbtn.setOnClickListener {
+            val popupMenu = PopupMenu(this, popbtn)
+            popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                when (item.itemId) {
+                    R.id.search_item -> {
+                        Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.modify_item -> {
+                        Toast.makeText(this, "Modify selected", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.item1 -> Toast.makeText(this, "About Selected", Toast.LENGTH_LONG).show()
+            R.id.item2 -> Toast.makeText(this, "Search Selected", Toast.LENGTH_LONG).show()
+            R.id.item3 -> Toast.makeText(this, "Help Selected", Toast.LENGTH_LONG).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.context_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.editItem -> Toast.makeText(this, "Edit Selected", Toast.LENGTH_LONG).show()
+            R.id.deleteItem -> Toast.makeText(this, "Delete Selected", Toast.LENGTH_LONG).show()
+        }
+        return super.onContextItemSelected(item)
+    }
+
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3)CANVAS
+
+MAIN.XML
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
+
+KT FILE
+package com.example.prabbycanvas
+
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
+import android.graphics.drawable.shapes.RectShape
+import android.media.Image
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ImageView
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val bitmap = Bitmap.createBitmap(1000,1000,Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val paint = Paint()
+        var shapeDrawable = ShapeDrawable(RectShape())
+        shapeDrawable.setBounds(100,100,600,400)
+        shapeDrawable.paint.setColor(Color.parseColor("#110110"))
+        shapeDrawable.draw(canvas)
+        shapeDrawable = ShapeDrawable(OvalShape())
+        shapeDrawable.paint.setColor(Color.parseColor("#009191"))
+        shapeDrawable.setBounds(100,500,600,800)
+        shapeDrawable.draw(canvas)
+
+        paint.color = Color.RED
+        canvas.drawCircle(500F, 500F, 100F,paint)
+
+
+        val iv = findViewById<ImageView>(R.id.imageView)
+        iv.background = BitmapDrawable(resources,bitmap)
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+4)FRAGMENTS
+
+CREATE AS MANY FRAGMENTS AS MANY ASKED(SUPPOSE 2->(JAVA->BOTTOM->FRAGMENT->FRAGMENT(BLACK)) 
+AND GRADLE(MODULE)-> ADD viewBinding
+
+{enable = true}
+
+MAIN.XML
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content"
+        android:text="Fragment1" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Fragment2" />
+</RelativeLayout>
+
+FRAGMENT1.XML
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment1">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment"
+        android:gravity="center"
+        android:background="@color/purple_500"
+        />
+
+</FrameLayout>
+
+FRAGMENT2.XML
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment2">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment"
+        android:gravity="center"
+        android:background="@color/teal_200"/>
+
+</FrameLayout>
+
+FRAGME1.KT
+package com.example.prabbyfragments
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+
+class Fragment1 : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_1, container, false)
+    }
+}
+
+FRAGMENT2.KT
+package com.example.prabbyfragments
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+
+class Fragment2 : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_2, container, false)
+    }
+}
+
+MAIN.KT
+package com.example.prabbyfragments
+
+import android.os.Bundle
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+
+import com.example.prabbyfragments.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var fragmentManager : FragmentManager
+    private lateinit var binding : ActivityMainBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.button1.setOnClickListener {
+            goToFragment(Fragment1())
+        }
+        binding.button2.setOnClickListener {
+            goToFragment(Fragment2())
+        }
+    }
+    private fun goToFragment(fragment: Fragment){
+        fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------
+5)DATABASE
+VIEW->APP INSPECTION
+
+MAIN.XML
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<EditText
+android:id="@+id/fname"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentStart="true"
+android:layout_alignParentLeft="true"
+android:layout_alignParentTop="true"
+android:ems="10"
+android:inputType="textPersonName"
+android:hint="First Name" />
+<EditText
+android:id="@+id/lname"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentStart="true"
+android:layout_alignParentLeft="true"
+android:layout_below="@+id/fname"
+android:ems="10"
+android:inputType="textPersonName"
+android:hint="Last Name" />
+
+<Button
+android:id="@+id/btnadd"
+android:layout_width="236dp"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="103dp"
+android:text="Add Student"
+android:onClick="btn_click" />
+<Button
+android:id="@+id/btndel"
+android:layout_width="236dp"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="159dp"
+android:text="Delete Student"
+android:onClick="btn_click" />
+<Button
+android:id="@+id/btnupd"
+android:layout_width="236dp"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="216dp"
+android:text="Update Student"
+android:onClick="btn_click" />
+
+<Button
+android:id="@+id/btnlis"
+android:layout_width="236dp"
+android:layout_height="wrap_content"
+android:layout_below="@+id/btnupd"
+android:layout_centerHorizontal="true"
+android:onClick="btn_click"
+android:text="List Students" />
+<TextView
+android:id="@+id/textView"
+android:layout_width="302dp"
+android:layout_height="180dp"
+android:layout_below="@+id/btnlis"
+android:layout_centerHorizontal="true" />
+</RelativeLayout>
+
+THEN DBCONTROLLER(JAVA->NEW->PACKAGE->MAIN->dbController then dbController folder->NEW->ACTIVITY->EMPTY ACTIVITY(NAME SAME 
+AND UNCHECK THE BOX GEN THE LAYOUT FILE)
+
+dbController.kt
+
+package dbController
+
+import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.TextView
+
+class dbController(context:Context,name:String,factory:SQLiteDatabase.CursorFactory? ,version:Int) :SQLiteOpenHelper(context,"std.db",factory,version) {
+
+    override fun onCreate(db : SQLiteDatabase) {
+        db.execSQL("CREATE TABLE STUDENT(FNAME TEXT,LNAME TEXT);")
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
+        db.execSQL("DROP TABLE IF EXISTS STUDENT")
+        onCreate(db)
+    }
+
+    fun insert(a:String ,b:String){
+        val cv=ContentValues()
+        cv.put("FNAME",a)
+        cv.put("LNAME",b)
+        this.writableDatabase.insert("STUDENT",null,cv)
+    }
+
+    fun delete(a:String){
+        this.writableDatabase.delete("STUDENT","FNAME='$a'",null)
+    }
+    fun update(a:String ,aa:String){
+        this.writableDatabase.execSQL("UPDATE STUDENT SET FNAME='$aa' WHERE FNAME='$a';")
+    }
+    fun list(tv:TextView){
+        if(tv!=null){
+            tv.text=""
+        }
+        val c =this.readableDatabase.rawQuery("SELECT * FROM STUDENT",null)
+        while(c.moveToNext()){
+            tv?.append(
+                """${c.getString(0)}${c.getString(1)}"""
+            
+
+            )
+        }
+    }
+}
+
+MAIN.KT
+package com.example.dbsqlite
+
+import android.os.Bundle
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.example.studentform.R
+import dbController1.dbController1
+
+class MainActivity : AppCompatActivity() {
+    var fname: EditText? = null
+    var lname: EditText? = null
+    var list: TextView? = null
+    var dbc: dbController1? = null //null values are allowed
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        fname = findViewById(R.id.fname)
+        lname = findViewById(R.id.lname)
+        list = findViewById(R.id.textView)
+        dbc = dbController1(this, "std.db", null, 1)
+    }
+
+    fun btn_click(v: View) {
+        when (v.id) {
+            R.id.btnadd -> dbc?.insert(fname!!.text.toString(),
+                lname!!.text.toString())
+            R.id.btndel -> dbc?.delete(fname!!.text.toString())
+            R.id.btnupd -> {
+                val dialog = AlertDialog.Builder(this@MainActivity)
+                dialog.setTitle("Enter Firstname")
+                val newFname = EditText(this)
+                dialog.setView(newFname)
+                dialog.setPositiveButton(
+                    "OK"
+                ) { dialog, which -> dbc?.update(fname!!.text.toString(),
+
+                    newFname!!.text.toString()) }
+                dialog.show()
+            }
+            R.id.btnlis -> dbc?.list(list!!)
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------
+6) SHARED PREF
+MAIN.XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:hint="Name" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/name"
+        android:inputType="numberPassword"
+        android:hint="password"/>
+
+    <Button
+        android:id="@+id/savebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/loadbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/savebtn"
+        android:layout_centerInParent="true"
+        android:text="Load" />
+
+    <Button
+        android:id="@+id/deletebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loadbtn"
+        android:layout_centerInParent="true"
+        android:text="Delete" />
+</RelativeLayout>
+
+MAIN.KT
+package com.example.prabbysharedpreferences
+
+import android.content.SharedPreferences
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val name = findViewById<EditText>(R.id.name)
+        val password = findViewById<EditText>(R.id.password)
+        val savebtn = findViewById<Button>(R.id.savebtn)
+        val deletebtn = findViewById<Button>(R.id.deletebtn)
+        val loadbtn = findViewById<Button>(R.id.loadbtn)
+
+        val shrdPref = getSharedPreferences("addName", MODE_PRIVATE)
+        var edit = shrdPref.edit()
+        savebtn.setOnClickListener {
+            edit.putString("Name",name.text.toString())
+            edit.putString("Password",password.text.toString())
+            edit.commit()
+            Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show()
+        }
+        loadbtn.setOnClickListener {
+            val getname = shrdPref.getString("Name","Default Name")
+            val getpassword = shrdPref.getString("Password","Default Password")
+            name.setText(getname)
+            password.setText(getpassword)
+        }
+        deletebtn.setOnClickListener {
+            edit.clear()
+            edit.commit()
+        }
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7) ANIMATIONS
+RES->NEW->AND RES DIRECTORY->ANIM
+
+ANIM FOLDER->NEW ->ANIMATION RES FILE
+
+MAIN.XML
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+tools:context=".MainActivity">
+
+<TextView
+
+android:id="@+id/textView"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:layout_above="@+id/linearLayout"
+
+android:gravity="center"
+
+android:text="Mobile Application Development"
+
+android:textSize="32sp"
+
+android:textColor="@color/teal_200"
+
+android:textStyle="bold" />
+
+<LinearLayout
+
+android:id="@+id/linearLayout"
+
+android:layout_width="match_parent"
+
+android:layout_height="wrap_content"
+
+android:layout_alignParentBottom="true"
+
+android:orientation="vertical">
+
+<LinearLayout
+
+android:layout_width="match_parent"
+
+android:layout_height="wrap_content"
+
+android:orientation="horizontal"
+
+android:weightSum="2">
+
+<Button
+
+android:id="@+id/fade_in"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Fade In"
+
+android:textAllCaps="false" />
+
+<Button
+
+android:id="@+id/fade_out"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Fade Out"
+
+android:textAllCaps="false" />
+
+</LinearLayout>
+
+<LinearLayout
+
+android:layout_width="match_parent"
+
+android:layout_height="wrap_content"
+
+android:orientation="horizontal"
+
+android:weightSum="2">
+
+<Button
+
+android:id="@+id/zoom_in"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Zoom In"
+
+android:textAllCaps="false" />
+
+<Button
+
+android:id="@+id/zoom_out"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Zoom Out"
+
+android:textAllCaps="false" />
+
+</LinearLayout>
+
+<LinearLayout
+
+android:layout_width="match_parent"
+
+android:layout_height="wrap_content"
+
+android:orientation="horizontal"
+
+android:weightSum="2">
+
+<Button
+
+android:id="@+id/slide_down"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Slide Down"
+
+android:textAllCaps="false" />
+
+<Button
+
+android:id="@+id/slide_up"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Slide Up"
+
+android:textAllCaps="false" />
+
+</LinearLayout>
+
+<LinearLayout
+
+android:layout_width="match_parent"
+
+android:layout_height="wrap_content"
+
+android:orientation="horizontal"
+
+android:weightSum="2">
+
+<Button
+
+android:id="@+id/bounce"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Bounce"
+
+android:textAllCaps="false" />
+
+<Button
+
+android:id="@+id/rotate"
+
+android:layout_width="0dp"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+android:text="Rotate"
+
+android:textAllCaps="false" />
+
+</LinearLayout>
+
+</LinearLayout>
+
+</RelativeLayout>
+
+
+Fade_in
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+android:interpolator="@android:anim/linear_interpolator">
+<alpha
+android:duration="1000"
+android:fromAlpha="0.1"
+android:toAlpha="1.0" />
+</set>
+
+Fade_out
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+android:interpolator="@android:anim/linear_interpolator">
+<alpha
+android:duration="2000"
+android:fillAfter="true"
+android:fromAlpha="1.0"
+android:toAlpha="0.1" />
+</set>
+
+Zoom_in
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+android:fillAfter="true">
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+android:duration="1000"
+android:fromXScale="1"
+android:fromYScale="1"
+android:pivotX="50%"
+android:pivotY="50%"
+android:toXScale="1.5"
+android:toYScale="1.5">
+</scale>
+</set>
+
+Zoom_out
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+android:fillAfter="true" >
+<scale
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:duration="1000"
+android:fromXScale="1.0"
+android:fromYScale="1.0"
+android:pivotX="50%"
+android:pivotY="50%"
+android:toXScale="0.5"
+android:toYScale="0.5" >
+</scale>
+</set>
+
+Slide_up
+
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+<translate
+android:duration="1000"
+android:fromYDelta="0"
+android:toYDelta="-100%" />
+</set>
+
+Slide_down
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+<translate
+android:duration="1000"
+android:fromYDelta="-100%"
+android:toYDelta="0" />
+</set>
+
+Bounce
+
+<?xml version="1.0" encoding="utf-8"?>
+<set
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:interpolator="@android:anim/linear_interpolator"
+android:fillAfter="true">
+<translate
+android:fromYDelta="100%"
+android:toYDelta="-20%"
+android:duration="300" />
+<translate
+android:startOffset="500"
+android:fromYDelta="-20%"
+android:toYDelta="10%"
+android:duration="150" />
+<translate
+android:startOffset="1000"
+android:fromYDelta="10%"
+android:toYDelta="0"
+android:duration="100" />
+</set>
+
+Rotate
+
+findViewById<Button>(R.id.rotate).setOnClickListener {
+
+image.animate().apply {
+
+duration=1000
+
+rotationXBy(360f)
+
+}.start()
+
+MAIN.KT
+
+package com.example.animations
+
+import android.support.v7.app.AppCompatActivity
+
+import android.os.Bundle
+
+import android.os.Handler
+
+import android.view.View
+
+import android.view.animation.AnimationUtils
+
+import android.widget.Button
+
+import android.widget.TextView
+
+import java.util.Collections.rotate
+
+class MainActivity : AppCompatActivity() {
+
+override fun onCreate(savedInstanceState: Bundle?) {
+
+super.onCreate(savedInstanceState)
+
+setContentView(R.layout.activity_main)
+
+val image=findViewById<TextView>(R.id.textView)
+
+findViewById<Button>(R.id.fade_in).setOnClickListener {
+
+val animationFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+
+image.startAnimation(animationFadeIn)
+
+}
+
+findViewById<Button>(R.id.fade_out).setOnClickListener {
+
+val animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+
+image.startAnimation(animationFadeOut)
+
+}
+
+findViewById<Button>(R.id.zoom_in).setOnClickListener {
+
+val animationZoomIn = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
+
+image.startAnimation(animationZoomIn)
+
+}
+
+findViewById<Button>(R.id.zoom_out).setOnClickListener {
+
+val animationZoomOut = AnimationUtils.loadAnimation(this,
+R.anim.zoom_out)
+
+image.startAnimation(animationZoomOut)
+
+}
+
+findViewById<Button>(R.id.slide_up).setOnClickListener {
+
+val animationZoomIn = AnimationUtils.loadAnimation(this,
+R.anim.slide_up)
+
+image.startAnimation(animationZoomIn)
+
+}
+
+findViewById<Button>(R.id.slide_down).setOnClickListener {
+
+val animationZoomIn = AnimationUtils.loadAnimation(this,
+R.anim.slide_down)
+
+image.startAnimation(animationZoomIn)
+
+}
+
+val bounceAnimation = AnimationUtils.loadAnimation(this,
+R.anim.bounce)
+
+findViewById<Button>(R.id.bounce).setOnClickListener {
+
+image.startAnimation(bounceAnimation)
+
+}
+
+findViewById<Button>(R.id.rotate).setOnClickListener {
+
+image.animate().apply {
+
+duration=1000
+
+rotationXBy(360f)
+
+}.start()
+
+}
+
+}
+
+}
+
+
+
+-------------------------------------------------------------------------------------
+
+
+#spinner
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_above="@+id/spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Item" />
+
+</RelativeLayout>
+
+package com.example.prabbyspinner
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val spinner = findViewById<Spinner>(R.id.spinner)
+
+        // Create a list of items for the Spinner
+        val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
+
+        // Create an ArrayAdapter for the Spinner
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            items
+        )
+
+        // Set the adapter to the Spinner
+        spinner.adapter = adapter
+        // Set the listener for Spinner item selection
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem = items[position]
+                // Show a Toast message with the selected item
+                Toast.makeText(this@MainActivity, "Selected: $selectedItem", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Optional: Handle the case where nothing is selected
+            }
+        }
+    }
+}
+
+
+
+
+#datepicker
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnShowDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvSelectedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Date: "
+        android:layout_below="@id/btnShowDatePicker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp" />
+
+</RelativeLayout>
+
+
+package com.example.prabbydatepicker
+
+import android.app.DatePickerDialog
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import java.util.Calendar
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val btnShowDatePicker = findViewById<Button>(R.id.btnShowDatePicker)
+        val tvSelectedDate = findViewById<TextView>(R.id.tvSelectedDate)
+
+        btnShowDatePicker.setOnClickListener {
+            // Get the current date
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            // Show DatePickerDialog
+            DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                // Display selected date in TextView
+                val selectedDate = selectedDay.toString()+"/"+selectedMonth+"/"+selectedYear
+                tvSelectedDate.text = "Selected Date: $selectedDate"
+            }, year, month, day).show()
+        }
+    }
+}
+
+
+
+#checkbox
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Welcome To Prabby's Cafe :)" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Choose your Items:" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Burger" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/checkBox"
+        android:text="Coffee" />
+
+    <CheckBox
+        android:id="@+id/checkBox3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/checkBox2"
+        android:text="Croissant" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/checkBox3"
+        android:layout_marginTop="20dp"
+        android:text="Place Order!" />
+</RelativeLayout>
+
+class MainActivity : AppCompatActivity() {
+    lateinit var burger: CheckBox
+    lateinit var coffee: CheckBox
+    lateinit var croissant: CheckBox
+    lateinit var button: Button
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        burger = findViewById(R.id.checkBox)
+        coffee = findViewById(R.id.checkBox2)
+        croissant = findViewById(R.id.checkBox3)
+        button = findViewById(R.id.button)
+
+        button.setOnClickListener {
+            var totalAmount =0
+            val result = StringBuilder()
+            result.append("Your order is: ")
+
+            if(burger.isChecked){
+                result.append("Burger 100Rs ")
+                totalAmount+=100
+            }
+            if(coffee.isChecked){
+                result.append("Coffee 50Rs ")
+                totalAmount+=50
+            }
+            if(croissant.isChecked){
+                result.append("Croissant 30Rs ")
+                totalAmount+=30
+            }
+
+            result.append("Total Bill: "+ totalAmount + "Rs")
+            Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+
+#progressbar
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Horizontal Progress Bar -->
+    <ProgressBar
+        android:id="@+id/horizontalProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:progress="0"
+        android:indeterminate="false"
+        android:max="100" />
+
+    <Button
+        android:id="@+id/btnStartHorizontalProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/horizontalProgressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Start Progress" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/horizontalProgressBar"
+        android:text="--/100" />
+
+</RelativeLayout>
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var progressBar: ProgressBar
+    private lateinit var txtView: TextView
+    private var progressStatus = 0
+    private val handler = Handler(Looper.getMainLooper())
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        txtView = findViewById(R.id.textView)
+        progressBar = findViewById(R.id.horizontalProgressBar)
+        val btnStartProgress = findViewById<Button>(R.id.btnStartHorizontalProgress)
+
+        btnStartProgress.setOnClickListener {
+            progressStatus = 0
+		progressBar!!.visibility = View.VISIBLE
+            Thread {
+                while (progressStatus <= 100) {
+                    progressStatus += 1
+                    Thread.sleep(50) // Simulate some work
+                    handler.post {
+                        txtView.text = (progressStatus-1).toString() + "/" + progressBar.max
+                        progressBar.progress = progressStatus
+                    }
+                }
+	progressBar!!.visibility = View.INVISIBLE
+            }.start()
+        }
+    }
+
+
+
+
+#timepicker
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:timePickerMode="clock" />
+
+    <TextView
+        android:id="@+id/tvSelectedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:text="Selected Time: "
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+</RelativeLayout>
+
+
+package com.example.prabbytimepicker
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CalendarView
+import android.widget.TextView
+import android.widget.TimePicker
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val timePicker = findViewById<TimePicker>(R.id.timePicker)
+        val tvSelectedTime = findViewById<TextView>(R.id.tvSelectedTime)
+
+        // Set listener for time changes
+        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+            val formattedTime = String.format("%02d:%02d", hourOfDay, minute)
+            tvSelectedTime.text = "Selected Time: $formattedTime"
+        }
+    }
+}
+
+
+
+
+#alertdialoguebox
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Exit?" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/textView"
+        android:onClick="exit"
+        android:text="Press to exit." />
+</RelativeLayout>
+
+package com.example.prabbyalertdialogbox
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.view.View
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+    fun exit(view : View){
+        val alert = AlertDialog.Builder(this)
+        alert.setTitle("Confirm Exit?")
+        alert.setIcon(R.drawable.ic_baseline_add_alert_24)
+        alert.setMessage("Are you sure?")
+        alert.setCancelable(false)
+        alert.setPositiveButton("Yes"){_,_->
+            finish()
+        }
+        alert.setNegativeButton("No"){_,_->
+            Toast.makeText(this,"You clicked on NO", Toast.LENGTH_SHORT).show()
+        }
+        alert.setNeutralButton("Cancel"){_,_->
+            Toast.makeText(this,"You clicked on CANCEL", Toast.LENGTH_SHORT).show()
+        }
+        alert.create().show()
+    }
+}
+
+
+#custom checkbox
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:button="@drawable/ic_launcher_foreground"
+        android:layout_marginTop="30dp"
+        android:text="AndroidHead" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:button="@drawable/ic_baseline_star_24"
+        android:layout_below="@id/checkBox"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:text="Star" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click to see your choices" />
+</RelativeLayout>
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val ck1= findViewById<CheckBox>(R.id.checkBox)
+        val ck2= findViewById<CheckBox>(R.id.checkBox2)
+        val btn= findViewById<Button>(R.id.button)
+
+        btn.setOnClickListener {
+            val result = StringBuilder("")
+            if(!ck1.isChecked && !ck2.isChecked){
+                Toast.makeText(this, "Nothing is Selected!", Toast.LENGTH_LONG).show()
+            }
+            else if(ck1.isChecked){
+                result.append(" " + ck1.text)
+            }
+            else if(ck2.isChecked){
+                result.append(" "+ck2.text)
+            }
+            Toast.makeText(this, result.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+}
+
+
+#custom toast
+
+activity_main.xml
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:text="Press Me For a Star" />
+</RelativeLayout>
+
+custom.xml
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/customcontainer">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/imageView"
+        android:text="Hello I am A Star" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+</RelativeLayout>
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val num1=findViewById<EditText>(R.id.editTextNumber)
+        val num2=findViewById<EditText>(R.id.editTextNumber2)
+        val button=findViewById<Button>(R.id.button)
+        val result=findViewById<TextView>(R.id.textView)
+
+        button.setOnClickListener{
+            if(num1.text.isEmpty() || num2.text.isEmpty()){
+                Toast.makeText(this, "Enter the Number Please!", Toast.LENGTH_SHORT).show()
+            }
+            result.text =  "Result:"+(num1.text.toString().toInt() + num2.text.toString().toInt()).toString()
+        }
+    }
+}
+
+
+#addnumbers
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:text="0"
+        android:ems="10"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextNumber2"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/editTextNumber"
+        android:text="0"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/purple_200"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"
+        android:text="Result" />
+</RelativeLayout>
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val num1=findViewById<EditText>(R.id.editTextNumber)
+        val num2=findViewById<EditText>(R.id.editTextNumber2)
+        val button=findViewById<Button>(R.id.button)
+        val result=findViewById<TextView>(R.id.textView)
+
+        button.setOnClickListener{
+            if(num1.text.isEmpty() || num2.text.isEmpty()){
+                Toast.makeText(this, "Enter the Number Please!", Toast.LENGTH_SHORT).show()
+            }
+            result.text =  "Result:"+(num1.text.toString().toInt() + num2.text.toString().toInt()).toString()
+        }
+    }
+}
+
+
+
+
+#image listener
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@+id/ll1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_weight="1"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </LinearLayout>
+</RelativeLayout>
+
+
+#toggle button
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"
+        android:text="The Image is Visible" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_below="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:textOn="Show"
+        android:textOff="Hide"
+        android:text="ToggleButton" />
+</RelativeLayout>
+
+import android.media.Image
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.ToggleButton
+
+class MainActivity : AppCompatActivity() {
+    lateinit var image: ImageView
+    lateinit var textView: TextView
+    lateinit var toggleButton: ToggleButton
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        image= findViewById(R.id.imageView)
+        textView= findViewById(R.id.textView)
+        toggleButton= findViewById(R.id.toggleButton)
+
+        toggleButton.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                image.visibility = View.INVISIBLE
+                textView.text= "The image is now Invisible."
+            }
+            else{
+                image.visibility= View.VISIBLE
+                textView.text="The image is Visible."
+            }
+        }
+    }
+}
+
+
+
+#Mathematics in Kotlin
+
+package com.example.myapplication
+
+import android.annotation.SuppressLintimport android.widget.EditText
+import android.os.Bundle
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+
+class MainActivity : AppCompatActivity() {
+@SuppressLint("MissingInflatedId")
+override fun onCreate(savedInstanceState: Bundle?) {
+super.onCreate(savedInstanceState)
+enableEdgeToEdge()
+setContentView(R.layout.activity_main)
+
+val myRadioGroup: RadioGroup = findViewById(R.id.radioGroup1)
+val myButton: Button = findViewById(R.id.button)
+val myText: EditText = findViewById(R.id.editTextNumber)
+val myText2: EditText = findViewById(R.id.editTextNumber2)
+
+myButton.setOnClickListener { val selectedOption: Int = myRadioGroup.checkedRadioButtonId if (selectedOption == -1) {
+Toast.makeText(this, "Please select an operation", Toast.LENGTH_SHORT).show()
+return@setOnClickListener }
+
+val radioButton = findViewById<RadioButton>(selectedOption)
+val operation = radioButton.text.toString()
+
+val num1String = myText.text.toString()
+val num2String = myText2.text.toString()
+
+if (num1String.isEmpty() || num2String.isEmpty()) {
+Toast.makeText(this, "Please enter numbers in both fields", Toast.LENGTH_SHORT).show()
+return@setOnClickListener }
+
+try {
+val num1 = num1String.toInt()
+val num2 = num2String.toInt()
+var result = 0.0 // Use Double for division accuracy when (operation) {
+"Addition" -> result = (num1 + num2).toDouble()
+"Subtraction" -> result = (num1 - num2).toDouble()
+"Multiplication" -> result = (num1 * num2).toDouble()
+"Division" -> {
+if (num2 == 0) {
+Toast.makeText(this, "Cannot divide by zero", Toast.LENGTH_SHORT).show()
+return@setOnClickListener }
+result = num1.toDouble() / num2.toDouble()
+}
+else -> {
+Toast.makeText(this, "Invalid operation", Toast.LENGTH_SHORT).show()
+return@setOnClickListener }
+}
+
+Toast.makeText(this, "Result: $result", Toast.LENGTH_SHORT).show()
+} catch (e: NumberFormatException) {
+Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show()
+}
+} }
+}
